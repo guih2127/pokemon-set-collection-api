@@ -1,14 +1,14 @@
-﻿using System.Collections.Generic;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace pokemon_tcg_collection_api.Models
 {
-    public class CardEntity
+    public class UserCardEntity
     {
         public int Id { get; set; }
         public string ExternalId { get; set; }
+        public int UserId { get; set; }
 
         [JsonIgnore]
-        public List<UserEntity> Users { get; set; }
+        public UserEntity User { get; set; }
     }
 }

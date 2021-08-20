@@ -11,13 +11,13 @@ namespace pokemon_tcg_collection_api.Context
         }
 
         public DbSet<UserEntity> Users { get; set; }
-        public DbSet<CardEntity> Cards { get; set; }
+        public DbSet<UserCardEntity> Cards { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<UserEntity>()
                 .HasMany(m => m.CardsObtained)
-                .WithMany(c => c.Users);
+                .WithOne(c => c.User);
         }
     }
 }

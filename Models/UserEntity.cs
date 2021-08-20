@@ -12,6 +12,6 @@ namespace pokemon_tcg_collection_api.Models
         public string Role { get; set; }
 
         [JsonIgnore]
-        public List<CardEntity> CardsObtained { get; set; }
+        public List<UserCardEntity> CardsObtained { get; set; }
     }
 }

@@ -8,6 +8,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using pokemon_tcg_collection_api.Context;
+using pokemon_tcg_collection_api.Services;
 using pokemon_tcg_collection_api.Services.Interfaces;
 using System.Text;
 
@@ -94,6 +95,7 @@ namespace pokemon_tcg_collection_api
             });
 
             services.AddTransient<IUserService, UserService>();
+            services.AddTransient<ICardService, CardService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
