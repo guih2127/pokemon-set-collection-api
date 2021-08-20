@@ -20,23 +20,30 @@ namespace pokemon_tcg_collection_api.Services
             _context = context;
         }
 
-        public async Task<UserCardEntity> InsertUserCardAsync(string externalId, int userId)
+        public async Task<IEnumerable<string>> InsertUserCardAsync(string externalId, int userId)
         {
             var card = new UserCardEntity { ExternalId = externalId, UserId = userId };
 
-            var cardToInsert = await _context.Cards.AddAsync(card);
+            await _context.Cards.AddAsync(card);
             await _context.SaveChangesAsync();
 
-            var insertedCard = await _context.Cards
-                .Where(u => u.Id == cardToInsert.Entity.Id)
-                .FirstOrDefaultAsync();
-
-            return insertedCard;
+            var cards = await _context.Cards.Where(x => x.UserId == userId).Select(x => x.ExternalId).ToListAsync();
+            return cards;
         }
 
-        public async Task<IEnumerable<UserCardEntity>> GetUserCardsAsync(int userId)
+        public async Task<IEnumerable<string>> RemoveUserCardAsync(string externalId, int userId)
         {
-            var cards = await _context.Cards.Where(x => x.UserId == userId).ToListAsync();
+            var card = await _context.Cards.Where(x => x.ExternalId == externalId && x.UserId == userId).FirstOrDefaultAsync();
+            _context.Cards.Remove(card);
+            await _context.SaveChangesAsync();
+
+            var cards = await _context.Cards.Where(x => x.UserId == userId).Select(x => x.ExternalId).ToListAsync();
+            return cards;
+        }
+
+        public async Task<IEnumerable<string>> GetUserCardsAsync(int userId)
+        {
+            var cards = await _context.Cards.Where(x => x.UserId == userId).Select(x => x.ExternalId).ToListAsync();
             return cards;
         }
     }
